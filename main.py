@@ -12,6 +12,17 @@ def read_write_csv_xlsx(input_file, output_file):
     df.to_excel(output_file, index=False)
 
 
+# 读取CSV文件并输出漏洞XLSX文件
+def read_write_csv_vuln(input_file, output_file):
+    df = pd.read_csv(input_file)
+    df = df.dropna(subset=['Risk'])
+    num = 1
+    for index, row in df.iterrows():
+        df.loc[index, 'Plugin ID'] = num
+        num += 1
+    df.to_excel(output_file, index=False)
+
+
 if __name__ == '__main__':
     # 获取文件路径
     input_file_path = filedialog.askopenfilename()
@@ -19,3 +30,4 @@ if __name__ == '__main__':
     filename = filedialog.asksaveasfilename()
     # 示例用法
     # read_write_csv_xlsx(input_file_path, filename + '_源文件.xlsx')
+    # read_write_csv_vuln(input_file_path, filename + '_漏洞文件.xlsx')
