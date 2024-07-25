@@ -70,6 +70,18 @@ def read_csv_count_vuln(input_file, output_file):
     combination_counts.to_excel(output_file, index=False)
 
 
+def read_csv_write_vuln_text(input_file):
+    # 翻译名称和解决方案
+    df = pd.read_excel(input_file + '_漏洞文件.xlsx')
+    for index, row in df.iterrows():
+        with open("Name.txt", "a") as f:
+            f.write(str(df.loc[index, 'Name']).replace("\n", "").replace("\r", "") + "\n")
+
+    for index, row in df.iterrows():
+        with open("Solution.txt", "a") as f:
+            f.write(str(df.loc[index, 'Solution']).replace("\n", "").replace("\r", "") + "\n")
+
+
 if __name__ == '__main__':
     # 获取文件路径
     input_file_path = filedialog.askopenfilename()
@@ -81,3 +93,4 @@ if __name__ == '__main__':
     read_write_csv_prot(input_file_path, filename + '_端口文件.xlsx')
     filter_and_log_unique_hosts_per_port(input_file_path, filename + '_高危端口文件.txt')
     read_csv_count_vuln(filename + '_漏洞文件.xlsx', filename + '_漏洞统计.xlsx')
+    read_csv_write_vuln_text(filename)
